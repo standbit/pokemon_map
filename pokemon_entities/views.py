@@ -75,6 +75,8 @@ def show_pokemon(request, pokemon_id):
         "title_ru": requested_pokemons[0].pokemon.title,
         "img_url": request.build_absolute_uri(f"/media/{requested_pokemons[0].pokemon.image}"),
         "description": requested_pokemons[0].pokemon.description,
+        "title_en": requested_pokemons[0].pokemon.title_en,
+        "title_jp": requested_pokemons[0].pokemon.title_jp,
     }
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon
