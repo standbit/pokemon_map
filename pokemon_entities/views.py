@@ -62,7 +62,6 @@ def show_pokemon(request, pokemon_id):
     for pokemon in pokemon_entities:
         if pokemon.pokemon.id == int(pokemon_id):
             requested_pokemons.append(pokemon)
-            print(requested_pokemons)
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in requested_pokemons:
@@ -71,12 +70,17 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.lon,
             request.build_absolute_uri(f"/media/{pokemon_entity.pokemon.image}")
         )
+    previous_evolution_img = ''
+    if requested_pokemons[0].pokemon.previous_evolution:
+        previous_evolution_img = request.build_absolute_uri(f"/media/{requested_pokemons[0].pokemon.previous_evolution.image}")
     pokemon = {
         "title_ru": requested_pokemons[0].pokemon.title,
         "img_url": request.build_absolute_uri(f"/media/{requested_pokemons[0].pokemon.image}"),
         "description": requested_pokemons[0].pokemon.description,
         "title_en": requested_pokemons[0].pokemon.title_en,
         "title_jp": requested_pokemons[0].pokemon.title_jp,
+        "previous_evolution": requested_pokemons[0].pokemon.previous_evolution,
+        "previous_evolution_img": previous_evolution_img,
     }
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon
