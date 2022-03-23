@@ -10,7 +10,8 @@ class Pokemon(models.Model):
         'self',
         null=True,
         blank=True,
-        on_delete=models.SET_NULL)
+        on_delete=models.SET_NULL,
+        related_name='next_evolutions')
 
     def __str__(self):
         return f'{self.title}'
