@@ -35,19 +35,17 @@ def show_all_pokemons(request):
             folium_map,
             pokemon_entity.lat,
             pokemon_entity.lon,
-            request.build_absolute_uri(
-                f"/media/{pokemon_entity.pokemon.image}"),
-        )
+            request.build_absolute_uri(pokemon_entity.pokemon.image.url),
+            )
 
     pokemons_on_page = []
 
     for pokemon in pokemons:
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
-            'img_url': request.build_absolute_uri(
-                f"/media/{pokemon.image}"),
+            'img_url': request.build_absolute_uri(pokemon.image.url),
             'title_ru': pokemon.title,
-        })
+            })
 
     return render(request, 'mainpage.html', context={
         'map': folium_map._repr_html_(),
@@ -68,21 +66,20 @@ def show_pokemon(request, pokemon_id):
             folium_map,
             pokemon_entity.lat,
             pokemon_entity.lon,
-            request.build_absolute_uri(
-                f"/media/{pokemon_entity.pokemon.image}")
+            request.build_absolute_uri(pokemon_entity.pokemon.image.url)
         )
 
     previous_evolution_img = ''
     if requested_pokemons[0].pokemon.previous_evolution:
         previous_evolution_img = request.build_absolute_uri(
-            f"/media/{requested_pokemons[0].pokemon.previous_evolution.image}")
+            requested_pokemons[0].pokemon.previous_evolution.image.url)
 
     next_evolution_img = ''
     next_evolution_pokemon = None
     if requested_pokemons[0].pokemon.next_evolutions.all():
         next_evolution_pokemon = requested_pokemons[0].pokemon.next_evolutions.get()    # noqa E501
         next_evolution_img = request.build_absolute_uri(
-            f"/media/{next_evolution_pokemon.image}")
+            next_evolution_pokemon.image.url)
 
     pokemon = {
         "title_ru": requested_pokemons[0].pokemon.title,
