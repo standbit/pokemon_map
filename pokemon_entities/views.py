@@ -1,10 +1,7 @@
 import folium
-
-from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
 from pokemon_entities.models import Pokemon, PokemonEntity
-
 
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
@@ -38,7 +35,8 @@ def show_all_pokemons(request):
             folium_map,
             pokemon_entity.lat,
             pokemon_entity.lon,
-            request.build_absolute_uri(f"/media/{pokemon_entity.pokemon.image}"),
+            request.build_absolute_uri(
+                f"/media/{pokemon_entity.pokemon.image}"),
         )
 
     pokemons_on_page = []
@@ -46,7 +44,8 @@ def show_all_pokemons(request):
     for pokemon in pokemons:
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
-            'img_url': request.build_absolute_uri(f"/media/{pokemon.image}"),
+            'img_url': request.build_absolute_uri(
+                f"/media/{pokemon.image}"),
             'title_ru': pokemon.title,
         })
 
@@ -66,24 +65,29 @@ def show_pokemon(request, pokemon_id):
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in requested_pokemons:
         add_pokemon(
-            folium_map, pokemon_entity.lat,
+            folium_map,
+            pokemon_entity.lat,
             pokemon_entity.lon,
-            request.build_absolute_uri(f"/media/{pokemon_entity.pokemon.image}")
+            request.build_absolute_uri(
+                f"/media/{pokemon_entity.pokemon.image}")
         )
+
     previous_evolution_img = ''
     if requested_pokemons[0].pokemon.previous_evolution:
-        previous_evolution_img = request.build_absolute_uri(f"/media/{requested_pokemons[0].pokemon.previous_evolution.image}")
-    
+        previous_evolution_img = request.build_absolute_uri(
+            f"/media/{requested_pokemons[0].pokemon.previous_evolution.image}")
+
     next_evolution_img = ''
     next_evolution_pokemon = None
-    
     if requested_pokemons[0].pokemon.next_evolutions.all():
-        next_evolution_pokemon = requested_pokemons[0].pokemon.next_evolutions.get()
-        next_evolution_img = request.build_absolute_uri(f"/media/{next_evolution_pokemon.image}")
-    
+        next_evolution_pokemon = requested_pokemons[0].pokemon.next_evolutions.get()    # noqa E501
+        next_evolution_img = request.build_absolute_uri(
+            f"/media/{next_evolution_pokemon.image}")
+
     pokemon = {
         "title_ru": requested_pokemons[0].pokemon.title,
-        "img_url": request.build_absolute_uri(f"/media/{requested_pokemons[0].pokemon.image}"),
+        "img_url": request.build_absolute_uri(
+            f"/media/{requested_pokemons[0].pokemon.image}"),
         "description": requested_pokemons[0].pokemon.description,
         "title_en": requested_pokemons[0].pokemon.title_en,
         "title_jp": requested_pokemons[0].pokemon.title_jp,
@@ -92,6 +96,7 @@ def show_pokemon(request, pokemon_id):
         "next_evolution": next_evolution_pokemon,
         "next_evolution_img": next_evolution_img,
     }
+
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon
     })

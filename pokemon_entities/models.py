@@ -1,5 +1,6 @@
 from django.db import models  # noqa F401
 
+
 class Pokemon(models.Model):
     title = models.CharField(
         verbose_name='Имя на русском',
@@ -24,7 +25,7 @@ class Pokemon(models.Model):
         blank=True)
     previous_evolution = models.ForeignKey(
         'self',
-        verbose_name= 'Из кого эволюционировал',
+        verbose_name='Из кого эволюционировал',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -69,6 +70,6 @@ class PokemonEntity(models.Model):
         verbose_name='Выносливость',
         null=True,
         blank=True)
-    
+
     def __str__(self):
         return f'{self.pokemon}'
