@@ -35,7 +35,8 @@ def show_all_pokemons(request):
 
     for pokemon_entity in pokemon_entities:
         add_pokemon(
-            folium_map, pokemon_entity.lat,
+            folium_map,
+            pokemon_entity.lat,
             pokemon_entity.lon,
             request.build_absolute_uri(f"/media/{pokemon_entity.pokemon.image}"),
         )
