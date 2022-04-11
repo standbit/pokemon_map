@@ -7,22 +7,16 @@ class Pokemon(models.Model):
         max_length=200)
     title_en = models.CharField(
         verbose_name='Имя на английском',
-        max_length=200,
-        default="default title",
-        blank=True)
+        max_length=200)
     title_jp = models.CharField(
         verbose_name='Имя на японском',
-        max_length=200,
-        default="default title",
-        blank=True)
+        max_length=200)
     image = models.ImageField(
         verbose_name='Изображение',
         upload_to='pokemons',
         null=True)
     description = models.TextField(
-        verbose_name='Описание',
-        default="default description",
-        blank=True)
+        verbose_name='Описание')
     previous_evolution = models.ForeignKey(
         'self',
         verbose_name='Из кого эволюционировал',
