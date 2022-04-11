@@ -13,8 +13,7 @@ class Pokemon(models.Model):
         max_length=200)
     image = models.ImageField(
         verbose_name='Изображение',
-        upload_to='pokemons',
-        null=True)
+        upload_to='pokemons')
     description = models.TextField(
         verbose_name='Описание')
     previous_evolution = models.ForeignKey(
