@@ -7,15 +7,18 @@ class Pokemon(models.Model):
         max_length=200)
     title_en = models.CharField(
         verbose_name='Имя на английском',
-        max_length=200)
+        max_length=200,
+        blank=True)
     title_jp = models.CharField(
         verbose_name='Имя на японском',
-        max_length=200)
+        max_length=200,
+        blank=True)
     image = models.ImageField(
         verbose_name='Изображение',
         upload_to='pokemons')
     description = models.TextField(
-        verbose_name='Описание')
+        verbose_name='Описание',
+        blank=True)
     previous_evolution = models.ForeignKey(
         'self',
         verbose_name='Из кого эволюционировал',
@@ -41,15 +44,25 @@ class PokemonEntity(models.Model):
     disappeared_at = models.DateTimeField(
         verbose_name='Когда исчезнет')
     level = models.IntegerField(
-        verbose_name='Уровень')
+        verbose_name='Уровень',
+        null=True,
+        blank=True)
     health = models.IntegerField(
-        verbose_name='Здоровье')
+        verbose_name='Здоровье',
+        null=True,
+        blank=True)
     strength = models.IntegerField(
-        verbose_name='Атака')
+        verbose_name='Атака',
+        null=True,
+        blank=True)
     defence = models.IntegerField(
-        verbose_name='Защита')
+        verbose_name='Защита',
+        null=True,
+        blank=True)
     stamina = models.IntegerField(
-        verbose_name='Выносливость')
+        verbose_name='Выносливость',
+        null=True,
+        blank=True)
 
     def __str__(self):
         return self.pokemon
