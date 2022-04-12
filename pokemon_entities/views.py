@@ -54,7 +54,8 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon_entities = Pokemon.objects.get(id=int(pokemon_id)).pokemon_entities.all()
+    pokemon_type = Pokemon.objects.get(id=int(pokemon_id))
+    pokemon_entities = pokemon_type.pokemon_entities.all()
     requested_pokemons = []
     for pokemon in pokemon_entities:
         requested_pokemons.append(pokemon)
@@ -69,25 +70,25 @@ def show_pokemon(request, pokemon_id):
         )
 
     previous_evolution_img = ''
-    if requested_pokemons[0].pokemon.previous_evolution:
+    if pokemon_type.previous_evolution:
         previous_evolution_img = request.build_absolute_uri(
-            requested_pokemons[0].pokemon.previous_evolution.image.url)
+            pokemon_type.previous_evolution.image.url)
 
     next_evolution_img = ''
     next_evolution_pokemon = None
-    if requested_pokemons[0].pokemon.next_evolutions.all():
-        next_evolution_pokemon = requested_pokemons[0].pokemon.next_evolutions.get()    # noqa E501
+    if pokemon_type.next_evolutions.all():
+        next_evolution_pokemon = pokemon_type.next_evolutions.get()
         next_evolution_img = request.build_absolute_uri(
             next_evolution_pokemon.image.url)
 
     pokemon = {
-        "title_ru": requested_pokemons[0].pokemon.title,
+        "title_ru": pokemon_type.title,
         "img_url": request.build_absolute_uri(
-            requested_pokemons[0].pokemon.image.url),
-        "description": requested_pokemons[0].pokemon.description,
-        "title_en": requested_pokemons[0].pokemon.title_en,
-        "title_jp": requested_pokemons[0].pokemon.title_jp,
-        "previous_evolution": requested_pokemons[0].pokemon.previous_evolution,
+            pokemon_type.image.url),
+        "description": pokemon_type.description,
+        "title_en": pokemon_type.title_en,
+        "title_jp": pokemon_type.title_jp,
+        "previous_evolution": pokemon_type.previous_evolution,
         "previous_evolution_img": previous_evolution_img,
         "next_evolution": next_evolution_pokemon,
         "next_evolution_img": next_evolution_img,
