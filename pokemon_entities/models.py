@@ -25,7 +25,7 @@ class Pokemon(models.Model):
         related_name='next_evolutions')
 
     def __str__(self):
-        return f'{self.title}'
+        return self.title
 
 
 class PokemonEntity(models.Model):
@@ -52,4 +52,4 @@ class PokemonEntity(models.Model):
         verbose_name='Выносливость')
 
     def __str__(self):
-        return f'{self.pokemon}'
+        return self.pokemon
