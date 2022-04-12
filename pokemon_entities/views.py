@@ -54,11 +54,10 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon_entities = PokemonEntity.objects.all()
+    pokemon_entities = Pokemon.objects.get(id=int(pokemon_id)).pokemon_entities.all()
     requested_pokemons = []
     for pokemon in pokemon_entities:
-        if pokemon.pokemon.id == int(pokemon_id):
-            requested_pokemons.append(pokemon)
+        requested_pokemons.append(pokemon)
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in requested_pokemons:
